@@ -1,0 +1,22 @@
+services:
+  php:
+    build:
+      context: .
+      dockerfile: services/php/Dockerfile
+      target: dev
+    ports:
+      - 80:80
+      - 443:443
+      - 443:443/udp
+    volumes:
+      - ./app:/app
+      - caddy_data:/data
+      - caddy_config:/config
+    tty: true
+
+  redis:
+    build: services/redis
+
+volumes:
+  caddy_data:
+  caddy_config:
