@@ -1,0 +1,22 @@
+version: 2
+
+updates:
+  - package-ecosystem: composer
+    directory: app
+    schedule:
+      interval: daily
+
+  - package-ecosystem: docker
+    directory: services/mysql
+    schedule:
+      interval: daily
+
+  - package-ecosystem: docker
+    directory: services/php
+    schedule:
+      interval: daily
+
+  - package-ecosystem: docker
+    directory: services/redis
+    schedule:
+      interval: daily
