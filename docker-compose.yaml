@@ -1,5 +1,5 @@
 services:
-  php:
+  api:
     build:
       context: .
       dockerfile: services/php/Dockerfile
@@ -13,9 +13,40 @@ services:
       - caddy_data:/data
       - caddy_config:/config
     tty: true
+    depends_on:
+      composer:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+      mysql:
+        condition: service_healthy
+
+  mysql:
+    build: services/mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: allow
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: app
+    healthcheck:
+      test: [CMD, mysqladmin ,ping, -h, localhost]
+      timeout: 20s
+      retries: 10
 
   redis:
     build: services/redis
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+
+  composer:
+    build:
+      context: .
+      dockerfile: services/php/Dockerfile
+      target: composer
+    entrypoint: [composer]
+    command: [install, --ignore-platform-reqs]
+    volumes:
+      - ./app:/app
 
 volumes:
   caddy_data:
