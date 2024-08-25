@@ -29,6 +29,10 @@ ENV SERVER_NAME=
 ENV FRANKENPHP_CONFIG="worker /app/public/index.php"
 ENV APP_RUNTIME=Runtime\\FrankenPhpSymfony\\Runtime
 ENV MAX_REQUESTS=64
+
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+
+RUN frankenphp php-cli bin/console asset-map:compile
+RUN frankenphp php-cli bin/console tailwind:build --minify
 
 COPY ./app /app
