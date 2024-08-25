@@ -8,6 +8,7 @@ COPY ./services/php/conf /usr/local/etc/php
 RUN install-php-extensions \
   ctype \
   iconv \
+  pdo_mysql \
   opcache \
   pcre \
   redis \
@@ -23,6 +24,7 @@ RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
 FROM base AS release
 
+# TODO: DEFINE THE SERVER_NAME ENVIRONMENT VARIABLE
 ENV SERVER_NAME=
 ENV FRANKENPHP_CONFIG="worker /app/public/index.php"
 ENV APP_RUNTIME=Runtime\\FrankenPhpSymfony\\Runtime
