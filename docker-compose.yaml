@@ -48,6 +48,17 @@ services:
     volumes:
       - ./app:/app
 
+  tailwind:
+    build:
+      context: .
+      dockerfile: services/php/Dockerfile
+      target: dev
+    command: [frankenphp, php-cli, bin/console, tailwind:build, --watch]
+    volumes:
+      - ./app:/app
+      - caddy_data:/data
+      - caddy_config:/config
+
 volumes:
   caddy_data:
   caddy_config:
