@@ -1,4 +1,4 @@
-FROM composer:2.7.8 AS composer
+FROM composer:2.7.9 AS composer
 
 FROM dunglas/frankenphp:1.2.4-php8.3.10-alpine AS base
 
